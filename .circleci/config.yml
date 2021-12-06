@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+  run_tests:
+    docker:
+      - image: circleci/python:3.10.0
+    steps:
+      - checkout
+      - run:
+          name: Install Python Dependencies
+          command: |
+            pip install -r requirements.txt
+      - run:
+          name: Run Unit Tests
+          command: |
+            pytest --junitxml=test-reports/junit.xml
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+workflows:
+  build_test:
+    jobs:
+      - run_tests

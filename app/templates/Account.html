@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block head %} {{ super() }}<title>{% block title %}Account{% endblock %}</title>{% endblock %}
+
+{% block content %}
+<body>
+    {% block navbar %} {{ super() }} {% endblock %}
+
+    
+    <main role="main">
+	<br>
+	<h1 class="centerstuff"> My Account</h1><br>
+
+    <div class="row">
+        <!-- first column of html page -->
+        <div class="column1">
+
+            <h2>My Profile Information</h2>
+
+            <div>
+                <img src="/static/images/profilePics/{{ img }}" class="profile-pic">
+                {% if user == current_user %}
+                    <form  enctype="multipart/form-data" action="/upload" method="POST">
+                        <input type="file" name="pic" style="margin-bottom: 12px;"><br>
+                        <input type="submit" value="Upload file">
+                    </form>
+                    <br>
+                {% endif %}
+                <h6>Username: {{ user.username }}</h6>
+                <h6>Email: {{ user.email }}</h6>
+                <br>
+
+                {% if user == current_user %}
+                    <form action="#" method="POST" class="form-modifyusername">
+
+                        {{ usernameForm.hidden_tag() }}
+
+                        {{ usernameForm.newUsername.label() }}
+                        {{ usernameForm.newUsername(class="form-control", placeholder="Username", style="float: left; width: 78%") }}
+                        {{ usernameForm.submit(class="btn btn-primary", style="float: left; width: 18%; margin-left: 2%; margin-bottom: 2%") }}
+                    </form>
+
+                    <form action="#" method="POST" class="form-modifypassword">
+
+                        {{ passwordForm.hidden_tag() }}
+
+                        {{ passwordForm.newPassword.label() }}
+                        {{ passwordForm.newPassword(class="form-control", placeholder="Password", style="float: left; width: 78%") }}
+                        {{ passwordForm.submit(class="btn btn-primary", style="float: left; width: 18%; margin-left: 2%; margin-bottom: 2%") }}
+                    </form>
+
+                    <form action="#" method="POST" class="form-modifyemail">
+
+                        {{ emailForm.hidden_tag() }}
+
+                        {{ emailForm.newEmail.label() }}
+                        {{ emailForm.newEmail(class="form-control", placeholder="Email", style="float: left; width: 78%") }}
+                        {{ emailForm.submit(class="btn btn-primary", style="float: left; width: 18%; margin-left: 2%; margin-bottom: 2%") }}
+                    </form>
+
+                    <br><br><br>
+
+                {% endif %}
+            
+                <h6>Profile Statistics:</h6>
+            
+                <h6>Total amount of question upvotes: {{ upVQC }}</h6>
+                <h6>Total amount of question downvotes: {{ downVQC }}</h6>
+            
+                <h6>Total amount of answer upvotes: {{ upVAC }}</h6>
+                <h6>Total amount of answer downvotes: {{ downVAC }}</h6>
+        
+            </div>
+
+        </div>
+        
+        <!-- second column of html page -->
+        <div class="column2">
+
+            <h2> My Questions: </h2>
+        
+            <div>
+                {% for q in questions %}
+                <h4>
+                    <a class="hide-overflow" style="margin-left: 5%" href="{{ url_for('viewquestion_page') }}?question={{ q.title }}">{{ q.title }}</a>
+                </h4>
+                <h6>
+                    <p class="text ignore-css" style="margin-left: 10%">Asked on {{ q.questionaskdate}}</p>
+                </h6>
+                <br>
+                {% endfor %}
+        
+                <h2> My Answers: </h2>
+                {%for a in answers %}
+                    <h4>
+                        <p class="hide-overflow" style="margin-left: 5%">{{ a.answer}}</p>
+                    </h4>
+                    <h6>
+                        <p class="ignore-css text" style="margin-left: 10%">Answer given on {{ a.answerdate}} and replying to the question: </p>
+                    </h6>
+            
+                    {%for q in allquestions %}
+                        {% if q.id == a.question_id %}
+                            <h6>
+                                <a class="hide-overflow" style="margin-left: 15%" href="{{ url_for('viewquestion_page') }}?question={{ q.title }}">{{ q.title }}</a>
+                            </h6>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <!-- third column of html page -->
+        <div class="column3">
+            <h2> My Bookmarks: </h2>
+            {% for b in bookmarks %}
+            <h4>
+                <a class="hide-overflow" style="margin-left: 5%" href="{{ url_for('viewquestion_page') }}?question={{ b.title }}">{{ b.title }}</a>
+            </h4>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+
+    <br>
+
+    <style>
+        .column1 {
+        margin-left: 2%;
+        float: left;
+        width: 28%;
+        }
+
+        .column2 {
+            direction: ltr;
+            float: left;
+            width: 34%;
+        }
+
+        .column3 {
+            float: left;
+            width: 34%;
+        }
+
+        .centerstuff{
+			text-align: center;
+		}
+
+        .hide-overflow{
+            text-overflow: ellipsis;
+        }
+
+        p{
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        a{
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ignore-css{
+            all: unset;
+        }
+	</style>
+	
+{% endblock %}
+</body>

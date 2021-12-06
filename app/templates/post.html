@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{%for Userg in question %}
+<h1></h1>
+<h3 style="border: solid 1px black;display: block;padding:5px ;padding-bottom:20px;background-color:aliceblue;">{{Userg}}</h3>
+{%endfor%}
+<br>
+
+<div class="container">
+  <form method="POST" class="form-post">
+    {{ form.hidden_tag() }}
+    <br>
+    <h2>Ask a Question</h2><br>
+    <dl>
+      <dt> {{ form.title.label() }}
+      <dd> {{ form.title(cols="130", rows="1", placeholder="Title") }}  
+      <dt> {{ form.question.label() }}
+      <dd> {{ form.question(cols="130", rows="15", placeholder="Question") }}
+    </dl>
+    <br>
+
+    {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+
+    <br>
+  
+    
+  </form>
+</div>
+<!-- <div>
+<form action="#" method="post">
+  <label for="w3review"></label>
+  <textarea name="nm" rows="4" cols="50" placeholder="Ask your quesiton here">
+   
+    </textarea>
+    <br><br>
+    <input type="submit" value="Submit">
+</form>
+</div> -->
+
+{% endblock %}
+
+
+{% block foot %}
+
+{% endblock %}

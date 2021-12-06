@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %} {{ super() }}<title>{% block title %}Register{% endblock %}</title>{% endblock %}
+
+{% block content %}
+<body class="text-center">
+	
+    {% block navbar %} {{ super() }} {% endblock %}
+
+    <main role="main"><br>
+	<h1>Welcome to the Registration Page.</h1><br>
+	<h2>Please enter your user information:</h2><br>
+	
+	<div class="container">
+		<form method="POST" class="form-register">
+			{{ form.hidden_tag() }}
+
+			{{ form.username.label() }}
+			{{ form.username(class="form-control", placeholder="User Name") }}
+			<br>
+			{{ form.email.label() }}
+			{{ form.email(class="form-control", placeholder="Email Address") }}
+			<br>
+			{{ form.password1.label() }}
+			{{ form.password1(class="form-control", placeholder="Password") }}
+			<br>
+			{{ form.password2.label() }}
+			{{ form.password2(class="form-control", placeholder="Confirm Password") }}
+			<br>
+			<div class="checkbox mb-3">
+				<h6>Already have an account?</h6>
+				<a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
+			</div>
+			<br>
+			{{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+		</form>
+	</div>
+
+<br>
+
+{% endblock %}
+</body>
